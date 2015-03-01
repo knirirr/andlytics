@@ -60,7 +60,8 @@ public abstract class BaseAuthenticator implements DevConsoleAuthenticator {
 				JSONObject accountObj = devConsoleAccountsArr.getJSONObject(i);
 				String developerId = accountObj.getString("1");
 				String developerName = StringEscapeUtils.unescapeJava(accountObj.getString("2"));
-				devAccounts.add(new DeveloperConsoleAccount(developerId, developerName));
+        boolean canAccessApps = accountObj.getBoolean("3");
+        devAccounts.add(new DeveloperConsoleAccount(developerId, developerName, canAccessApps));
 			}
 
 

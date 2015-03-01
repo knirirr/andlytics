@@ -199,19 +199,16 @@ public class DevConsoleV2 implements DevConsole {
 		for (DeveloperConsoleAccount consoleAccount : protocol.getSessionCredentials()
 				.getDeveloperConsoleAccounts()) {
 			String developerId = consoleAccount.getDeveloperId();
-			Log.d(TAG, "Getting apps for " + developerId);
-      String response = "";
-      try
-      {
-        response = post(protocol.createFetchAppsUrl(developerId),
-            protocol.createFetchAppInfosRequest(), developerId);
-      }
-      catch (Exception e)
-      {
-        Log.e(TAG, "Failed to access account for developerId: " + developerId);
-        Log.e(TAG, "Error: " + e.toString());
+      if (!consoleAccount.getCanAccessApps()) {
+        // TODO Report this to the user properly, but don't spam them because they may
+       	// never be able to resolve the problem e.g. a linked account needs extra permissions or
+       	// an agreement signing which they cannot do
+      Log.w(TAG, "Not allowed to fetch app info for " + developerId + ". " +
+        "Log into the account via your browser to resolve the problem.");
         continue;
       }
+			Log.d(TAG, "Getting apps for " + developerId);
+      String  response = post(protocol.createFetchAppsUrl(developerId), protocol.createFetchAppInfosRequest(), developerId);
 
 			// don't skip incomplete apps, so we can get the package list
 			List<AppInfo> apps = protocol.parseAppInfosResponse(response, accountName, false);

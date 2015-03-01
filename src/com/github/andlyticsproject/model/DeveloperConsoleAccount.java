@@ -4,10 +4,12 @@ public class DeveloperConsoleAccount {
 
 	private String developerId;
 	private String name;
+  private boolean canAccessApps;
 
-	public DeveloperConsoleAccount(String developerId, String name) {
+	public DeveloperConsoleAccount(String developerId, String name, boolean canAccessApps) {
 		this.developerId = developerId;
 		this.name = name;
+    this.canAccessApps = canAccessApps;
 	}
 
 	public String getDeveloperId() {
@@ -18,7 +20,12 @@ public class DeveloperConsoleAccount {
 		return name;
 	}
 
-	@Override
+  public boolean getCanAccessApps() {
+    return canAccessApps;
+  }
+
+
+  @Override
 	public boolean equals(Object o) {
 		if (!(o instanceof DeveloperConsoleAccount)) {
 			return false;
@@ -38,8 +45,8 @@ public class DeveloperConsoleAccount {
 
 	@Override
 	public String toString() {
-		return String
-				.format("DeveloperConsoleAccount [developerId=%s, name=%s]", developerId, name);
+    return String.format("DeveloperConsoleAccount [developerId=%s, name=%s, canAccessApps=%b]",
+        developerId, name, canAccessApps);
 	}
 
 }
